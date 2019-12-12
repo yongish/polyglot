@@ -2,3 +2,9 @@ logging:
   level: INFO
   loggers:
     com.zhiyong: DEBUG
+
+database:
+  driverClass: com.mysql.cj.jdbc.Driver
+  user: ${DB_USER}
+  password: ${DB_PASSWORD}
+  url: jdbc:mysql://localhost:3306/library?serverTimezone=PST
