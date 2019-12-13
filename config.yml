@@ -8,3 +8,18 @@ database:
   user: ${DB_USER}
   password: ${DB_PASSWORD}
   url: jdbc:mysql://localhost:3306/library?serverTimezone=PST
+
+#jooq:
+#  logExecutedSql: yes
+#  renderFormatted: yes
+
+#Server configuration.
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+    - type: https
+      port: 8443
+      keyStorePath: dwstart.keystore
+      keyStorePassword: ${TEST_PASSWORD}
+      validateCerts: false

@@ -26,23 +26,24 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Produces(APPLICATION_JSON)
 public class TermResource {
     private TermDAO termDAO;
+    private DSLContext jooqContext;
 
     @Inject
-    public TermResource(TermDAO termDAO) {
+    public TermResource(TermDAO termDAO, DSLContext jooqContext) {
         this.termDAO = termDAO;
+        this.jooqContext = jooqContext;
     }
 
     @Path("/latest")
     @GET
-    public Response getLatestTerms(@Context DSLContext jooqContext) {
+    public Response getLatestTerms() {
         GenericEntity<List<String>> entities = new GenericEntity<>(termDAO.getLatestTerms(jooqContext)){};
         return Response.ok(entities).build();
     }
 
     @PUT
     public Response insertTerm(@QueryParam("username") String username,
-                               @QueryParam("term") String term,
-                               @Context DSLContext jooqContext) {
+                               @QueryParam("term") String term) {
         termDAO.insert(new Term(
                 Math.toIntExact(Instant.now().getEpochSecond()),
                 username,

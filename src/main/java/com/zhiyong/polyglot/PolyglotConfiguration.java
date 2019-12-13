@@ -14,7 +14,12 @@ public class PolyglotConfiguration extends Configuration {
     private DataSourceFactory database = new DataSourceFactory();
 
     @JsonProperty("database")
-    DataSourceFactory getDataSourceFactory() {
+    public void setDataSourceFactory(DataSourceFactory factory) {
+        this.database = factory;
+    }
+
+    @JsonProperty("database")
+    public DataSourceFactory getDataSourceFactory() {
         return database;
     }
 }
