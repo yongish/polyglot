@@ -9,10 +9,6 @@ database:
   password: ${DB_PASSWORD}
   url: jdbc:mysql://localhost:3306/library?serverTimezone=PST
 
-#jooq:
-#  logExecutedSql: yes
-#  renderFormatted: yes
-
 #Server configuration.
 server:
   applicationConnectors:

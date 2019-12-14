@@ -2,6 +2,8 @@ package com.zhiyong.polyglot;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.zhiyong.polyglot.health.PolyglotHealthCheck;
+import com.zhiyong.polyglot.resources.SuggestionResource;
 import com.zhiyong.polyglot.resources.TermResource;
 import io.dropwizard.Application;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
@@ -34,8 +36,10 @@ public class PolyglotApplication extends Application<PolyglotConfiguration> {
     public void run(final PolyglotConfiguration configuration,
                     final Environment environment) {
         injector = Guice.createInjector(new PolyglotServiceModule(configuration, environment));
+        environment.healthChecks().register("polyglot", injector.getInstance(PolyglotHealthCheck.class));
 
         environment.jersey().register(injector.getInstance(TermResource.class));
+        environment.jersey().register(injector.getInstance(SuggestionResource.class));
     }
 
 }
