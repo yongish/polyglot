@@ -17,6 +17,13 @@ public class TermDAO {
                 .getValues(TERM.TERM_);
     }
 
+    public List<String> findTerms(String searchTerm, DSLContext jooqContext) {
+        return jooqContext.select(TERM.TERM_).from(TERM)
+                .where(TERM.TERM_.like("%" + searchTerm + "%"))
+                .fetch()
+                .getValues(TERM.TERM_);
+    }
+
     public void insert(Term term, DSLContext jooqContext) {
         jooqContext.insertInto(TERM, TERM.CREATED_AT, TERM.USERNAME, TERM.TERM_, TERM.VIEWS, TERM.VOTES)
                 .values(Math.toIntExact(Instant.now().getEpochSecond()),

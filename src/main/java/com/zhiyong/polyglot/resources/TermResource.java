@@ -12,7 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
@@ -38,6 +37,13 @@ public class TermResource {
     @GET
     public Response getLatestTerms() {
         GenericEntity<List<String>> entities = new GenericEntity<>(termDAO.getLatestTerms(jooqContext)){};
+        return Response.ok(entities).build();
+    }
+
+    @Path("/{searchTerm}")
+    @GET
+    public Response findTerms(@PathParam("searchTerm") String searchTerm) {
+        GenericEntity<List<String>> entities = new GenericEntity<>(termDAO.findTerms(searchTerm, jooqContext)){};
         return Response.ok(entities).build();
     }
 
