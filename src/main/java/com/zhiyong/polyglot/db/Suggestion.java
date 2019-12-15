@@ -12,5 +12,7 @@ public class Suggestion {
     @NonNull
     private String content;
     @NonNull
-    private String username;
+    private String familyName;
+    @NonNull
+    private String givenName;
 }

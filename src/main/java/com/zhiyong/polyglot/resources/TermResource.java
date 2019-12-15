@@ -1,8 +1,10 @@
 package com.zhiyong.polyglot.resources;
 
 import com.google.inject.Inject;
+import com.zhiyong.polyglot.api.User;
 import com.zhiyong.polyglot.db.Term;
 import com.zhiyong.polyglot.jdbi.TermDAO;
+import com.zhiyong.polyglot.utils.Utils;
 import org.jooq.DSLContext;
 
 import javax.ws.rs.Consumes;
@@ -15,7 +17,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
-import java.time.Instant;
 import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -26,11 +27,13 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 public class TermResource {
     private TermDAO termDAO;
     private DSLContext jooqContext;
+    private User user;
 
     @Inject
     public TermResource(TermDAO termDAO, DSLContext jooqContext) {
         this.termDAO = termDAO;
         this.jooqContext = jooqContext;
+        this.user = user;
     }
 
     @Path("/latest")
@@ -48,11 +51,13 @@ public class TermResource {
     }
 
     @PUT
-    public Response insertTerm(@QueryParam("username") String username,
+    public Response insertTerm(@QueryParam("username") String familyName,
+                               @QueryParam("givenname") String givenName,
+//                               @QueryParam("user") User user,
                                @QueryParam("term") String term) {
         termDAO.insert(new Term(
-                Math.toIntExact(Instant.now().getEpochSecond()),
-                username,
+                Utils.getEpochSecond(),
+                familyName, givenName,
                 term,
                 0,
                 0

@@ -12,7 +12,7 @@ public class TermDAO {
     public List<String> getLatestTerms(DSLContext jooqContext) {
         return jooqContext.select(TERM.TERM_).from(TERM)
                 .orderBy(TERM.CREATED_AT.desc())
-                .limit(10)
+                .limit(1000)
                 .fetch()
                 .getValues(TERM.TERM_);
     }
@@ -25,9 +25,9 @@ public class TermDAO {
     }
 
     public void insert(Term term, DSLContext jooqContext) {
-        jooqContext.insertInto(TERM, TERM.CREATED_AT, TERM.USERNAME, TERM.TERM_, TERM.VIEWS, TERM.VOTES)
+        jooqContext.insertInto(TERM, TERM.CREATED_AT, TERM.FAMILYNAME, TERM.GIVENNAME, TERM.TERM_, TERM.VIEWS, TERM.VOTES)
                 .values(Math.toIntExact(Instant.now().getEpochSecond()),
-                        term.getUsername(), term.getTerm(), term.getViews(), term.getVotes())
+                        term.getFamilyName(), term.getGivenName(), term.getTerm(), term.getViews(), term.getVotes())
                 .execute();
     }
 }
