@@ -13,6 +13,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
@@ -41,11 +42,13 @@ public class SuggestionResource {
 
     @PUT
     public Response insertSuggestion(@PathParam("term") String term,
-                                     String suggestion,
-                                     User user
+                                     Suggestion suggestion
     ) {
         suggestionDAO.insert(
-                new Suggestion(Utils.getEpochSecond(), term, suggestion, user.getFamilyName(), user.getGivenName()),
+                new Suggestion(
+                        Utils.getEpochSecond(), term,
+                        suggestion.getContent(), suggestion.getFamilyName(), suggestion.getGivenName()
+                ),
                 jooqContext
         );
         return Response.status(Response.Status.OK).build();
