@@ -9,7 +9,7 @@ import org.jooq.DSLContext;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -48,7 +48,7 @@ public class TermResource {
     }
 
     @Path("/{term}")
-    @PUT
+    @POST
     public Response insertTerm(@PathParam("term") String term, User user) {
         termDAO.insert(new Term(
                 Utils.getEpochSecond(),
@@ -58,6 +58,7 @@ public class TermResource {
                 0,
                 0
         ), jooqContext);
-        return Response.status(Response.Status.OK).build();
+        GenericEntity<List<String>> entities = new GenericEntity<>(termDAO.findTerms(term, jooqContext)){};
+        return Response.ok(entities).build();
     }
 }

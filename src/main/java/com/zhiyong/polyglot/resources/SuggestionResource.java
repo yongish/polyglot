@@ -1,7 +1,7 @@
 package com.zhiyong.polyglot.resources;
 
 import com.google.inject.Inject;
-import com.zhiyong.polyglot.api.User;
+import com.zhiyong.polyglot.api.NewSuggestion;
 import com.zhiyong.polyglot.db.Suggestion;
 import com.zhiyong.polyglot.jdbi.SuggestionDAO;
 import com.zhiyong.polyglot.utils.Utils;
@@ -9,11 +9,10 @@ import org.jooq.DSLContext;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
@@ -40,9 +39,9 @@ public class SuggestionResource {
         return Response.ok(entities).build();
     }
 
-    @PUT
+    @POST
     public Response insertSuggestion(@PathParam("term") String term,
-                                     Suggestion suggestion
+                                     NewSuggestion suggestion
     ) {
         suggestionDAO.insert(
                 new Suggestion(
@@ -51,6 +50,7 @@ public class SuggestionResource {
                 ),
                 jooqContext
         );
-        return Response.status(Response.Status.OK).build();
+        GenericEntity<List<Suggestion>> entities = new GenericEntity<>(suggestionDAO.get(term, jooqContext)){};
+        return Response.ok(entities).build();
     }
 }

@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Data @NoArgsConstructor
-public class User {
+public class NewSuggestion {
+    @NonNull
+    private String content;
     @NonNull
     private String familyName;
     @NonNull
