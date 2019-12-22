@@ -40,13 +40,29 @@ public class SuggestionResource {
     }
 
     @POST
-    public Response insertSuggestion(@PathParam("term") String term,
-                                     NewSuggestion suggestion
-    ) {
+    @Path("/create")
+    public Response insertSuggestion(@PathParam("term") String term, NewSuggestion suggestion) {
         suggestionDAO.insert(
                 new Suggestion(
                         Utils.getEpochSecond(), term,
-                        suggestion.getContent(), suggestion.getFamilyName(), suggestion.getGivenName()
+                        suggestion.getContent(),
+                        suggestion.getUserId(), suggestion.getFamilyName(), suggestion.getGivenName()
+                ),
+                jooqContext
+        );
+        GenericEntity<List<Suggestion>> entities = new GenericEntity<>(suggestionDAO.get(term, jooqContext)){};
+        return Response.ok(entities).build();
+    }
+
+    @POST
+    @Path("/update")
+    public Response updateSuggestion(@PathParam("term") String term, NewSuggestion suggestion) {
+        suggestionDAO.update(
+                new Suggestion(
+                        Utils.getEpochSecond(), // Unused.
+                        term,
+                        suggestion.getContent(),
+                        suggestion.getUserId(), suggestion.getFamilyName(), suggestion.getGivenName()
                 ),
                 jooqContext
         );

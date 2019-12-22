@@ -9,6 +9,8 @@ public class NewSuggestion {
     @NonNull
     private String content;
     @NonNull
+    private String userId;
+    @NonNull
     private String familyName;
     @NonNull
     private String givenName;
