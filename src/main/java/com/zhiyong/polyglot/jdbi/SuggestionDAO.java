@@ -1,10 +1,10 @@
 package com.zhiyong.polyglot.jdbi;
 
 import com.zhiyong.polyglot.db.Suggestion;
+import com.zhiyong.polyglot.utils.Utils;
 import org.jooq.DSLContext;
 import org.jooq.codegen.maven.polyglot.tables.records.SuggestionRecord;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +30,7 @@ public class SuggestionDAO {
                 SUGGESTION.USER_ID,
                 SUGGESTION.FAMILY_NAME,
                 SUGGESTION.GIVEN_NAME).values(
-                        Math.toIntExact(Instant.now().getEpochSecond()),
+                        Utils.getEpochSecond(),
                         suggestion.getTerm(),
                         suggestion.getContent(),
                         suggestion.getUserId(),

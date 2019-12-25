@@ -56,6 +56,7 @@ public class TermResource {
                 user.getGivenName(),
                 term,
                 0,
+                0,
                 0
         ), jooqContext);
         GenericEntity<List<String>> entities = new GenericEntity<>(termDAO.findTerms(term, jooqContext)){};

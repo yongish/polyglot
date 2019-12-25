@@ -16,5 +16,7 @@ public class Term {
     @NonNull
     private int views;
     @NonNull
-    private int votes;
+    private int upvotes;
+    @NonNull
+    private int downvotes;
 }

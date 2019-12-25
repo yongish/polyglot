@@ -1,9 +1,9 @@
 package com.zhiyong.polyglot.jdbi;
 
 import com.zhiyong.polyglot.db.Term;
+import com.zhiyong.polyglot.utils.Utils;
 import org.jooq.DSLContext;
 
-import java.time.Instant;
 import java.util.List;
 
 import static org.jooq.codegen.maven.polyglot.tables.Term.TERM;
@@ -25,9 +25,22 @@ public class TermDAO {
     }
 
     public void insert(Term term, DSLContext jooqContext) {
-        jooqContext.insertInto(TERM, TERM.CREATED_AT, TERM.FAMILYNAME, TERM.GIVENNAME, TERM.TERM_, TERM.VIEWS, TERM.VOTES)
-                .values(Math.toIntExact(Instant.now().getEpochSecond()),
-                        term.getFamilyName(), term.getGivenName(), term.getTerm(), term.getViews(), term.getVotes())
-                .execute();
+        jooqContext.insertInto(
+                TERM,
+                TERM.CREATED_AT,
+                TERM.FAMILYNAME,
+                TERM.GIVENNAME,
+                TERM.TERM_,
+                TERM.VIEWS,
+                TERM.UPVOTES,
+                TERM.DOWNVOTES)
+                .values(Utils.getEpochSecond(),
+                        term.getFamilyName(),
+                        term.getGivenName(),
+                        term.getTerm(),
+                        term.getViews(),
+                        term.getUpvotes(),
+                        term.getDownvotes()
+        ).execute();
     }
 }
