@@ -52,6 +52,7 @@ public class TermResource {
     public Response insertTerm(@PathParam("term") String term, User user) {
         termDAO.insert(new Term(
                 Utils.getEpochSecond(),
+                user.getUserId(),
                 user.getFamilyName(),
                 user.getGivenName(),
                 term,
