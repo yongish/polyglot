@@ -22,6 +22,18 @@ public class SuggestionDAO {
     }
 
     public void insert(Suggestion suggestion, DSLContext jooqContext) {
+        List<Suggestion> suggestions = jooqContext.select().from(SUGGESTION)
+                .where(SUGGESTION.TERM.equal(suggestion.getTerm()))
+                .and(SUGGESTION.CONTENT.equal(suggestion.getContent()))
+                .fetch().into(SuggestionRecord.class)
+                .stream().map(x -> new Suggestion(
+                        x.getCreatedAt(), x.getTerm(), x.getContent(),
+                        x.getUserId(), x.getFamilyName(), x.getGivenName()
+                ))
+                .collect(Collectors.toList());
+        if (suggestions.size() > 0) {
+            throw new IllegalArgumentException("Duplicate suggestion.");
+        }
         jooqContext.insertInto(
                 SUGGESTION,
                 SUGGESTION.CREATED_AT,
@@ -40,9 +52,28 @@ public class SuggestionDAO {
     }
 
     public void update(Suggestion suggestion, DSLContext jooqContext) {
+        List<Suggestion> suggestions = jooqContext.select().from(SUGGESTION)
+                .where(SUGGESTION.TERM.equal(suggestion.getTerm()))
+                .and(SUGGESTION.CONTENT.equal(suggestion.getContent()))
+                .fetch().into(SuggestionRecord.class)
+                .stream().map(x -> new Suggestion(
+                        x.getCreatedAt(), x.getTerm(), x.getContent(),
+                        x.getUserId(), x.getFamilyName(), x.getGivenName()
+                ))
+                .collect(Collectors.toList());
+        if (suggestions.size() > 0) {
+            throw new IllegalArgumentException("Duplicate suggestion.");
+        }
         jooqContext.update(SUGGESTION)
                 .set(SUGGESTION.CONTENT, suggestion.getContent())
                 .where(SUGGESTION.USER_ID.equal(suggestion.getUserId()))
+                .execute();
+    }
+
+    public void delete(String term, String content, DSLContext jooqContext) {
+        jooqContext.delete(SUGGESTION)
+                .where(SUGGESTION.TERM.equal(term))
+                .and(SUGGESTION.CONTENT.equal(content))
                 .execute();
     }
 }

@@ -8,6 +8,7 @@ import com.zhiyong.polyglot.utils.Utils;
 import org.jooq.DSLContext;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -42,14 +43,19 @@ public class SuggestionResource {
     @POST
     @Path("/create")
     public Response insertSuggestion(@PathParam("term") String term, NewSuggestion suggestion) {
-        suggestionDAO.insert(
-                new Suggestion(
-                        Utils.getEpochSecond(), term,
-                        suggestion.getContent(),
-                        suggestion.getUserId(), suggestion.getFamilyName(), suggestion.getGivenName()
-                ),
-                jooqContext
-        );
+        try {
+            suggestionDAO.insert(
+                    new Suggestion(
+                            Utils.getEpochSecond(), term,
+                            suggestion.getContent(),
+                            suggestion.getUserId(), suggestion.getFamilyName(), suggestion.getGivenName()
+                    ),
+                    jooqContext
+            );
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage())
+                    .build();
+        }
         GenericEntity<List<Suggestion>> entities = new GenericEntity<>(suggestionDAO.get(term, jooqContext)){};
         return Response.ok(entities).build();
     }
@@ -66,6 +72,13 @@ public class SuggestionResource {
                 ),
                 jooqContext
         );
+        GenericEntity<List<Suggestion>> entities = new GenericEntity<>(suggestionDAO.get(term, jooqContext)){};
+        return Response.ok(entities).build();
+    }
+
+    @DELETE
+    public Response deleteSuggestion(@PathParam("term") String term, NewSuggestion suggestion) {
+        suggestionDAO.delete(term, suggestion.getContent(), jooqContext);
         GenericEntity<List<Suggestion>> entities = new GenericEntity<>(suggestionDAO.get(term, jooqContext)){};
         return Response.ok(entities).build();
     }
