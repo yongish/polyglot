@@ -7,7 +7,7 @@ import lombok.NonNull;
 @Data @NoArgsConstructor
 public class User {
     @NonNull
-    private String userId;
+    private String email;
     @NonNull
     private String familyName;
     @NonNull

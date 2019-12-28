@@ -16,7 +16,7 @@ public class SuggestionDAO {
                 .fetch().into(SuggestionRecord.class)
                 .stream().map(x -> new Suggestion(
                         x.getCreatedAt(), x.getTerm(), x.getContent(),
-                        x.getUserId(), x.getFamilyName(), x.getGivenName()
+                        x.getEmail(), x.getFamilyName(), x.getGivenName()
                 ))
                 .collect(Collectors.toList());
     }
@@ -28,7 +28,7 @@ public class SuggestionDAO {
                 .fetch().into(SuggestionRecord.class)
                 .stream().map(x -> new Suggestion(
                         x.getCreatedAt(), x.getTerm(), x.getContent(),
-                        x.getUserId(), x.getFamilyName(), x.getGivenName()
+                        x.getEmail(), x.getFamilyName(), x.getGivenName()
                 ))
                 .collect(Collectors.toList());
         if (suggestions.size() > 0) {
@@ -39,13 +39,13 @@ public class SuggestionDAO {
                 SUGGESTION.CREATED_AT,
                 SUGGESTION.TERM,
                 SUGGESTION.CONTENT,
-                SUGGESTION.USER_ID,
+                SUGGESTION.EMAIL,
                 SUGGESTION.FAMILY_NAME,
                 SUGGESTION.GIVEN_NAME).values(
                         Utils.getEpochSecond(),
                         suggestion.getTerm(),
                         suggestion.getContent(),
-                        suggestion.getUserId(),
+                        suggestion.getEmail(),
                         suggestion.getFamilyName(),
                         suggestion.getGivenName()
                 ).execute();
@@ -58,7 +58,7 @@ public class SuggestionDAO {
                 .fetch().into(SuggestionRecord.class)
                 .stream().map(x -> new Suggestion(
                         x.getCreatedAt(), x.getTerm(), x.getContent(),
-                        x.getUserId(), x.getFamilyName(), x.getGivenName()
+                        x.getEmail(), x.getFamilyName(), x.getGivenName()
                 ))
                 .collect(Collectors.toList());
         if (suggestions.size() > 0) {
@@ -66,7 +66,7 @@ public class SuggestionDAO {
         }
         jooqContext.update(SUGGESTION)
                 .set(SUGGESTION.CONTENT, suggestion.getContent())
-                .where(SUGGESTION.USER_ID.equal(suggestion.getUserId()))
+                .where(SUGGESTION.EMAIL.equal(suggestion.getEmail()))
                 .execute();
     }
 

@@ -12,7 +12,7 @@ public class Suggestion {
     @NonNull
     private String content;
     @NonNull
-    private String userId;
+    private String email;
     @NonNull
     private String familyName;
     @NonNull

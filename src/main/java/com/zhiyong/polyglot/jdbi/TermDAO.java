@@ -28,8 +28,8 @@ public class TermDAO {
         jooqContext.insertInto(
                 TERM,
                 TERM.CREATED_AT,
-                TERM.FAMILYNAME,
-                TERM.GIVENNAME,
+                TERM.FAMILY_NAME,
+                TERM.GIVEN_NAME,
                 TERM.TERM_,
                 TERM.VIEWS,
                 TERM.UPVOTES,

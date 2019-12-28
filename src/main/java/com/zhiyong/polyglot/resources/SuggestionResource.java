@@ -48,7 +48,7 @@ public class SuggestionResource {
                     new Suggestion(
                             Utils.getEpochSecond(), term,
                             suggestion.getContent(),
-                            suggestion.getUserId(), suggestion.getFamilyName(), suggestion.getGivenName()
+                            suggestion.getEmail(), suggestion.getFamilyName(), suggestion.getGivenName()
                     ),
                     jooqContext
             );
@@ -68,7 +68,7 @@ public class SuggestionResource {
                         Utils.getEpochSecond(), // Unused.
                         term,
                         suggestion.getContent(),
-                        suggestion.getUserId(), suggestion.getFamilyName(), suggestion.getGivenName()
+                        suggestion.getEmail(), suggestion.getFamilyName(), suggestion.getGivenName()
                 ),
                 jooqContext
         );

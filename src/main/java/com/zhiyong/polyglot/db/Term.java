@@ -8,7 +8,7 @@ public class Term {
     @NonNull
     private long createdAt;
     @NonNull
-    private String userId;
+    private String email;
     @NonNull
     private String familyName;
     @NonNull
