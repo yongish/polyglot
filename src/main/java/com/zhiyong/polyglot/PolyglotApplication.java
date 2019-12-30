@@ -40,17 +40,19 @@ public class PolyglotApplication extends Application<PolyglotConfiguration> {
     @Override
     public void run(final PolyglotConfiguration configuration,
                     final Environment environment) {
-        // Enable CORS headers
-        final FilterRegistration.Dynamic cors =
-                environment.servlets().addFilter("CORS", CrossOriginFilter.class);
-
-        // Configure CORS parameters
-        cors.setInitParameter("allowedOrigins", "*");
-        cors.setInitParameter("allowedHeaders", "*");
-        cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
+        configureCors(environment);
+//
+//        // Enable CORS headers
+//        final FilterRegistration.Dynamic cors =
+//                environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+//
+//        // Configure CORS parameters
+//        cors.setInitParameter("allowedOrigins", "*");
+//        cors.setInitParameter("allowedHeaders", "*");
+//        cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
 
         // Add URL mapping
-        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+//        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
         injector = Guice.createInjector(new PolyglotServiceModule(configuration, environment));
         environment.healthChecks().register("polyglot", injector.getInstance(PolyglotHealthCheck.class));
@@ -59,4 +61,13 @@ public class PolyglotApplication extends Application<PolyglotConfiguration> {
         environment.jersey().register(injector.getInstance(SuggestionResource.class));
     }
 
+    private void configureCors(Environment environment) {
+        FilterRegistration.Dynamic filter = environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+        filter.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,PUT,POST,DELETE,OPTIONS");
+        filter.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
+        filter.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "*");
+        filter.setInitParameter("allowedHeaders", "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
+        filter.setInitParameter("allowCredentials", "true");
+    }
 }
