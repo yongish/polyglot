@@ -28,6 +28,7 @@ public class TermDAO {
         jooqContext.insertInto(
                 TERM,
                 TERM.CREATED_AT,
+                TERM.EMAIL,
                 TERM.FAMILY_NAME,
                 TERM.GIVEN_NAME,
                 TERM.TERM_,
@@ -35,6 +36,7 @@ public class TermDAO {
                 TERM.UPVOTES,
                 TERM.DOWNVOTES)
                 .values(Utils.getEpochSecond(),
+                        term.getEmail(),
                         term.getFamilyName(),
                         term.getGivenName(),
                         term.getTerm(),
