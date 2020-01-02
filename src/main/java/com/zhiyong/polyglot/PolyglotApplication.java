@@ -40,8 +40,8 @@ public class PolyglotApplication extends Application<PolyglotConfiguration> {
     @Override
     public void run(final PolyglotConfiguration configuration,
                     final Environment environment) {
-//        configureCors(environment);
-//
+        configureCors(environment);
+
 //        // Enable CORS headers
 //        final FilterRegistration.Dynamic cors =
 //                environment.servlets().addFilter("CORS", CrossOriginFilter.class);
