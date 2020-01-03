@@ -67,6 +67,7 @@ public class SuggestionDAO {
         jooqContext.update(SUGGESTION)
                 .set(SUGGESTION.CONTENT, suggestion.getContent())
                 .where(SUGGESTION.EMAIL.equal(suggestion.getEmail()))
+                .and(SUGGESTION.TERM.equal(suggestion.getTerm()))
                 .execute();
     }
 
