@@ -3,6 +3,7 @@ package com.zhiyong.polyglot;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.zhiyong.polyglot.health.PolyglotHealthCheck;
+import com.zhiyong.polyglot.resources.QuizResource;
 import com.zhiyong.polyglot.resources.SuggestionResource;
 import com.zhiyong.polyglot.resources.TermResource;
 import io.dropwizard.Application;
@@ -59,6 +60,7 @@ public class PolyglotApplication extends Application<PolyglotConfiguration> {
 
         environment.jersey().register(injector.getInstance(TermResource.class));
         environment.jersey().register(injector.getInstance(SuggestionResource.class));
+        environment.jersey().register(injector.getInstance(QuizResource.class));
     }
 
     private void configureCors(Environment environment) {
